@@ -34,3 +34,13 @@ medical_records=[
     }
 ]
 
+def invalid_records(patient_id,age,gender,diagnosis,medications,last_visit_id):
+    conditions={
+        "patient_id":isinstance(patient_id,str) and re.fullmatch("p\d+",patient_id,re.IGNORECASE),
+        "age":isinstance(age,int) and age>18,
+        "gender": isinstance(gender,str) and gender.lower()==("male","female"),
+        "diagnosis":isinstance(diagnosis,str) or diagnosis is None,
+        "medications":isinstance(medications,list) and all[(isinstance(i,str) for i in medications)],
+        "last_visit_id": isinstance(last_visit_id,str) and re.fullmatch("v\d+",last_visit_id,re.IGNORECASE)
+    }
+    return [key for key,value in conditions.items() if not value]
